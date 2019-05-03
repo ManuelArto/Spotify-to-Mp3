@@ -1,5 +1,4 @@
 from SpotifyMp3 import SpotifyMp3
-import tkinter
 
 
 path = "./"
