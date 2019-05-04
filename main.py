@@ -1,5 +1,13 @@
 from SpotifyMp3 import SpotifyMp3
-import tkinter
+import tkinter as tk
+
+root = tk.Tk()
+
+canvas = tk.Canvas()
+canvas.pack()
+
+root.mainloop()
+
 
 path = "./"
 url = "https://open.spotify.com/playlist/37i9dQZF1DX4eRPd9frC1m"
@@ -10,4 +18,3 @@ try:
 except Exception as e:
     print(e)
     spotifyMp3.closeBrowser()
-
