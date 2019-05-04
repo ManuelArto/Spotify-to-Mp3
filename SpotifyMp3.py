@@ -17,14 +17,11 @@ class SpotifyMp3:
         self.driver = webdriver.Chrome(options=options)
         self.path = path
         self.url = url
+        self.songs = []
+        self.links = []
 
     def closeBrowser(self):
         self.driver.quit()
-
-    def start(self):
-        self.get_titles()
-        self.get_links()
-        self.download_from_yt()
 
     def get_titles(self):
         print("getting titles")
@@ -34,34 +31,30 @@ class SpotifyMp3:
                      EC.visibility_of_all_elements_located((By.CLASS_NAME, "tracklist-name")))
         artists = driver.find_elements_by_class_name("TrackListRow__artists")
         self.path += str(driver.title) + "/"
-        file = open("songs.txt", 'w+')
         for song, artist in zip(titles, artists):
-            file.write(song.text + " " + artist.text + "\n")
-        file.close()
+            self.songs += song.text + "-" + artist.text
+        return self.songs
 
     def get_links(self):
         print("getting links")
         driver = self.driver
-        file = open("songs.txt", 'r')
-        songs = file.readlines()
-        file = open("links.txt", 'w+')
+        songs = self.songs
         for song in songs:
             try:
                 driver.get("http://www.youtube.com/results?search_query=" + song)
                 link = WebDriverWait(driver, 5).until(
                        EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
-                file.write(link + "\n")
+                self.links += str(link)
             except Exception as e:
                 print(song + " at number " + str(songs.index(song)) + " not found. ERROR:")
                 print(e)
-        file.close()
         self.closeBrowser()
+        return self.links
 
     def download_from_yt(self):
         print("downloading")
         os.mkdir(self.path)
-        file = open("links.txt", 'r')
-        links = file.readlines()
+        links = self.links
         for link in links:
             yt = YouTube(link)
             stream = yt.streams.last()
