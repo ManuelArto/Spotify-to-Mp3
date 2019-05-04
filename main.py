@@ -1,13 +1,7 @@
 from SpotifyMp3 import SpotifyMp3
-import tkinter as tk
+from GUI import View
 
-root = tk.Tk()
-
-canvas = tk.Canvas()
-canvas.pack()
-
-root.mainloop()
-
+view = View()
 
 path = "./"
 url = "https://open.spotify.com/playlist/37i9dQZF1DX4eRPd9frC1m"
