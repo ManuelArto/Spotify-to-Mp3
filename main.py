@@ -2,7 +2,7 @@ from SpotifyMp3 import SpotifyMp3
 import tkinter as tk
 
 root = tk.Tk()
-s
+
 canvas = tk.Canvas()
 canvas.pack()
 
