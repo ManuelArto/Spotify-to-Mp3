@@ -32,7 +32,7 @@ class SpotifyMp3:
         artists = driver.find_elements_by_class_name("TrackListRow__artists")
         self.path += str(driver.title) + "/"
         for song, artist in zip(titles, artists):
-            self.songs += song.text + "-" + artist.text
+            self.songs.append(song.text + "-" + artist.text)
         return self.songs
 
     def get_links(self):
@@ -44,7 +44,7 @@ class SpotifyMp3:
                 driver.get("http://www.youtube.com/results?search_query=" + song)
                 link = WebDriverWait(driver, 5).until(
                        EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
-                self.links += str(link)
+                self.links.append(str(link))
             except Exception as e:
                 print(song + " at number " + str(songs.index(song)) + " not found. ERROR:")
                 print(e)
