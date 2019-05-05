@@ -4,7 +4,7 @@ from SpotifyMp3 import SpotifyMp3
 
 class Main:
 
-    def __init__(self):
+    def __init__(self):h
         View(start=self.start)
 
     def start(self, url, view):
