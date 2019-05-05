@@ -15,8 +15,7 @@ There are also the two py files of the project.
 You can download the folder TUI and there is the executable "main.exe" that you can run without having python installed
 There are also the two py files of the project.
 
-
-
+# 
 If you want to run the project with python you need to install two library:
 1. Selenium: https://selenium-python.readthedocs.io/
 2. Pytube: https://python-pytube.readthedocs.io/en/latest/
