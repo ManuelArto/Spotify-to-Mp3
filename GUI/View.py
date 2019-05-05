@@ -58,5 +58,5 @@ class View:
 
     def write_download(self, title, index):
         lab_download = self.lab_download
-        lab_download.insert("end", str(index) + ". " + title + "\n")
+        lab_download.insert("end", str(index+1) + ". " + title + "\n")
 
