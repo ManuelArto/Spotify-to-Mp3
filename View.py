@@ -37,11 +37,11 @@ class View:
         lower_frame = tk.Frame(root, bg='#05B039', bd=3)
         lower_frame.place(relx=0.58, rely=0.25, relwidth=0.75, relheight=0.6, anchor='n')
 
-        self.lab_songs = tk.Label(lower_frame)
+        self.lab_songs = tk.Listbox(lower_frame)
         self.lab_songs.place(relwidth=0.33, relheight=1)
-        self.lab_links = tk.Label(lower_frame)
+        self.lab_links = tk.Listbox(lower_frame)
         self.lab_links.place(relx=0.34, relwidth=0.33, relheight=1)
-        self.lab_download = tk.Label(lower_frame)
+        self.lab_download = tk.Listbox(lower_frame)
         self.lab_download.place(relx=0.68, relwidth=0.32, relheight=1)
 
         root.mainloop()
@@ -49,9 +49,14 @@ class View:
     def write_songs(self, songs):
         lab_songs = self.lab_songs
         for song in songs:
-            lab_songs['text'] += song + "\n"
+            lab_songs.insert("end", str(songs.index(song)+1) + ". " + song + "\n")
 
     def write_links(self, links):
         lab_links = self.lab_links
         for link in links:
-            lab_links['text'] += link + "\n"
+            lab_links.insert("end", str(links.index(link)+1) + ". " + link + "\n")
+
+    def write_download(self, title, index):
+        lab_download = self.lab_download
+        lab_download.insert("end", str(index) + ". " + title + "\n")
+

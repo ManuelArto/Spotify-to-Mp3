@@ -31,6 +31,7 @@ class SpotifyMp3:
                      EC.visibility_of_all_elements_located((By.CLASS_NAME, "tracklist-name")))
         artists = driver.find_elements_by_class_name("TrackListRow__artists")
         self.path += str(driver.title) + "/"
+        os.mkdir(self.path)
         for song, artist in zip(titles, artists):
             self.songs.append(song.text + "-" + artist.text)
         return self.songs
@@ -51,13 +52,11 @@ class SpotifyMp3:
         self.closeBrowser()
         return self.links
 
-    def download_from_yt(self):
+    def download_from_yt(self, link):
         print("downloading")
-        os.mkdir(self.path)
-        links = self.links
-        for link in links:
-            yt = YouTube(link)
-            stream = yt.streams.last()
-            stream.download(output_path=self.path)
-            os.rename(self.path + stream.default_filename,
-                      self.path + str(stream.default_filename).strip(".webm") + ".mp3")
+        yt = YouTube(link)
+        stream = yt.streams.last()
+        stream.download(output_path=self.path)
+        os.rename(self.path + stream.default_filename,
+                  self.path + str(stream.default_filename).strip(".webm") + ".mp3")
+        return stream.default_filename
