@@ -23,6 +23,11 @@ class SpotifyMp3:
     def closeBrowser(self):
         self.driver.quit()
 
+    def start(self):
+        self.get_titles()
+        self.get_links()
+        self.download_from_yt()
+
     def get_titles(self):
         print("getting titles")
         driver = self.driver
