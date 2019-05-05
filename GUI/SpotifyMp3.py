@@ -41,14 +41,10 @@ class SpotifyMp3:
         driver = self.driver
         songs = self.songs
         for song in songs:
-            try:
-                driver.get("http://www.youtube.com/results?search_query=" + song)
-                link = WebDriverWait(driver, 5).until(
-                       EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
-                self.links.append(str(link))
-            except Exception as e:
-                print(song + " at number " + str(songs.index(song)) + " not found. ERROR:")
-                print(e)
+            driver.get("http://www.youtube.com/results?search_query=" + song)
+            link = WebDriverWait(driver, 5).until(
+                   EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
+            self.links.append(str(link))
         self.closeBrowser()
         return self.links
 

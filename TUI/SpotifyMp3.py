@@ -1,3 +1,5 @@
+from builtins import print
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,8 +19,6 @@ class SpotifyMp3:
         self.driver = webdriver.Chrome(options=options)
         self.path = path
         self.url = url
-        self.songs = []
-        self.links = []
 
     def closeBrowser(self):
         self.driver.quit()
@@ -36,32 +36,37 @@ class SpotifyMp3:
                      EC.visibility_of_all_elements_located((By.CLASS_NAME, "tracklist-name")))
         artists = driver.find_elements_by_class_name("TrackListRow__artists")
         self.path += str(driver.title) + "/"
-        os.mkdir(self.path)
+        file = open("./files/songs.txt", 'w+')
         for song, artist in zip(titles, artists):
-            self.songs.append(song.text + "-" + artist.text)
-        return self.songs
+            file.write(song.text + " " + artist.text + "\n")
+        file.close()
 
     def get_links(self):
         print("getting links")
         driver = self.driver
-        songs = self.songs
+        file = open("./files/songs.txt", 'r')
+        songs = file.readlines()
+        file = open("./files/links.txt", 'w+')
         for song in songs:
             try:
                 driver.get("http://www.youtube.com/results?search_query=" + song)
                 link = WebDriverWait(driver, 5).until(
                        EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
-                self.links.append(str(link))
+                file.write(link + "\n")
             except Exception as e:
                 print(song + " at number " + str(songs.index(song)) + " not found. ERROR:")
                 print(e)
+        file.close()
         self.closeBrowser()
-        return self.links
 
-    def download_from_yt(self, link):
-        print("downloading " + link + "in " + self.path)
-        yt = YouTube(link)
-        stream = yt.streams.last()
-        stream.download(output_path=self.path)
-        os.rename(self.path + stream.default_filename,
-                  self.path + str(stream.default_filename).strip(".webm") + ".mp3")
-        return stream.default_filename
+    def download_from_yt(self):
+        print("downloading")
+        os.mkdir(self.path)
+        file = open("./files/links.txt", 'r')
+        links = file.readlines()
+        for link in links:
+            yt = YouTube(link)
+            stream = yt.streams.last()
+            stream.download(output_path=self.path)
+            os.rename(self.path + stream.default_filename,
+                      self.path + str(stream.default_filename).strip(".webm") + ".mp3")
