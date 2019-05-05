@@ -53,7 +53,7 @@ class SpotifyMp3:
         return self.links
 
     def download_from_yt(self, link):
-        print("downloading")
+        print("downloading " + link + "in " + self.path)
         yt = YouTube(link)
         stream = yt.streams.last()
         stream.download(output_path=self.path)
