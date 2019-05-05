@@ -2,6 +2,7 @@ from TUI.SpotifyMp3 import SpotifyMp3
 
 path = "./"
 url = ""
+spotifyMp3 = ()
 try:
     url = input("Inserisci l'URL della playlist di spotify\n")
     spotifyMp3 = SpotifyMp3(url, path)
