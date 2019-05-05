@@ -7,11 +7,11 @@ the songs in a folder named by the title of the playlist.
 
 
 There are **two** version of the app:
-##GUI
+## GUI
 You can download the folder GUI and there is the executable "GUI.exe" that you can run without having python installed
 There are also the two py files of the project.
 
-##TUI
+## TUI
 You can download the folder TUI and there is the executable "main.exe" that you can run without having python installed
 There are also the two py files of the project.
 
