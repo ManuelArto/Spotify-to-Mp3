@@ -20,7 +20,6 @@ class View:
 
         img = Image.open("./IMG/spotify_icon.png")
         img = img.resize((int(WIDTH/6), int(WIDTH/6)), Image.ANTIALIAS)
-        photoImg = ImageTk.PhotoImage(img)
         background_image = ImageTk.PhotoImage(img)
         background_label = tk.Label(root, image=background_image, bg='black')
         background_label.place(anchor='nw')

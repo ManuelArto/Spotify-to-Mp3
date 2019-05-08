@@ -1,10 +1,11 @@
-from builtins import print
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
+# API Credentials
+from API import SP_client_id_key, SP_client_secret_key, YT_DEVELOPER_KEY
+# for Spotify API
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy
+# for YT API
+import googleapiclient.discovery
+# for download from YT
 from pytube import YouTube
 import os
 
@@ -12,16 +13,19 @@ import os
 class SpotifyMp3:
 
     def __init__(self, url, path):
-        options = Options()
-        options.headless = True
-        prefs = {'profile.managed_default_content_settings.images': 2}
-        options.add_experimental_option("prefs", prefs)
-        self.driver = webdriver.Chrome(options=options)
-        self.path = path
-        self.url = url
-
-    def closeBrowser(self):
-        self.driver.quit()
+        self.playlist_id = url.split("list/")[1]
+        self.path = path + "/"
+        # Spotify API config
+        client_id = SP_client_id_key           # INSERT YOUR CREDENTIAL HERE
+        client_secret = SP_client_secret_key
+        client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+        self.sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        # Youtube API config
+        api_service_name = "youtube"
+        api_version = "v3"
+        DEVELOPER_KEY = YT_DEVELOPER_KEY        # INSERT YOUR API_KEY HERE
+        self.youtube = googleapiclient.discovery.build(
+            api_service_name, api_version, developerKey=DEVELOPER_KEY)
 
     def start(self):
         self.get_titles()
@@ -30,41 +34,30 @@ class SpotifyMp3:
 
     def get_titles(self):
         print("getting titles")
-        driver = self.driver
-        driver.get(self.url)
-        titles = WebDriverWait(driver, 5).until(
-                     EC.visibility_of_all_elements_located((By.CLASS_NAME, "tracklist-name")))
-        artists = driver.find_elements_by_class_name("TrackListRow__artists")
-        self.path += str(driver.title) + "/"
-        file = open("./files/songs.txt", 'w+')
-        for song, artist in zip(titles, artists):
-            file.write(song.text + " " + artist.text + "\n")
-        file.close()
+        sp = self.sp
+        result = sp.user_playlist_tracks(user="", playlist_id=self.playlist_id)
+        tracks = []
+        for track in result["items"]:
+            string = track["track"]["name"] + " _ "
+            for artist in track["track"]["artists"]:
+                string += artist["name"] + " "
+            tracks.append(string[0:-1])
+        self.tracks = tracks
 
     def get_links(self):
         print("getting links")
-        driver = self.driver
-        file = open("./files/songs.txt", 'r')
-        songs = file.readlines()
-        file = open("./files/links.txt", 'w+')
-        for song in songs:
-            try:
-                driver.get("http://www.youtube.com/results?search_query=" + song)
-                link = WebDriverWait(driver, 5).until(
-                       EC.visibility_of_all_elements_located((By.ID, "video-title")))[0].get_attribute("href")
-                file.write(link + "\n")
-            except Exception as e:
-                print(song + " at number " + str(songs.index(song)) + " not found. ERROR:")
-                print(e)
-        file.close()
-        self.closeBrowser()
+        links = []
+        for track in self.tracks:
+            request = self.youtube.search().list(part="snippet", maxResults=1, q=track)
+            response = request.execute()
+            for items in response["items"]:
+                links.append("https://www.youtube.com/watch?v=" + items["id"]["videoId"])
+        self.links = links
 
     def download_from_yt(self):
         print("downloading")
         os.mkdir(self.path)
-        file = open("./files/links.txt", 'r')
-        links = file.readlines()
-        for link in links:
+        for link in self.links:
             yt = YouTube(link)
             stream = yt.streams.last()
             stream.download(output_path=self.path)
