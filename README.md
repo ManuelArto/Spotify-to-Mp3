@@ -14,6 +14,9 @@ You can download the folder TUI and there is the executable "main.exe" that you 
 There are also the two py files of the project.
 
 # 
-If you want to run the project with python you need to install two library:
-1. Selenium: https://selenium-python.readthedocs.io/
-2. Pytube: https://python-pytube.readthedocs.io/en/latest/
+If you want to run or edit the project you need to install those library for the two APIs and the download of the songs:
+1. Spotipy: https://spotipy.readthedocs.io/en/latest/
+2. Youtube API: https://developers.google.com/youtube/v3/quickstart/python 
+3. Pytube: https://python-pytube.readthedocs.io/en/latest/
+
+For the APIs you need to follow the instructions and then you will be uble to insert your credentials in the app
