@@ -5,11 +5,11 @@ You have to insert the URL of a public playlist(like: https://open.spotify.com/p
 
 
 There are **two** version of the app:
-## GUI
+## GUI (user interface)
 You can download the folder GUI and there is the executable "GUI.exe" that you can run without having python installed
 There are also the two py files of the project.
 
-## TUI
+## TUI (command line)
 You can download the folder TUI and there is the executable "main.exe" that you can run without having python installed
 There are also the two py files of the project.
 
