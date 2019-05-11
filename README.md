@@ -19,4 +19,4 @@ If you want to run or edit the project you need to install those library for the
 2. Youtube API: https://developers.google.com/youtube/v3/quickstart/python 
 3. Pytube: https://python-pytube.readthedocs.io/en/latest/
 
-For the APIs you need to follow the instructions and then you will be uble to insert your credentials in the app
+For the APIs credentials follow the instructions on the link above and then you will be able to insert them in the app
