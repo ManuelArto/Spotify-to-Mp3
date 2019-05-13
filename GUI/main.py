@@ -1,5 +1,5 @@
-from GUI.SpotifyMp3 import SpotifyMp3
-from GUI.View import View
+from SpotifyMp3 import SpotifyMp3
+from View import View
 import threading
 
 

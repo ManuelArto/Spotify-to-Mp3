@@ -1,4 +1,4 @@
-from TUI.SpotifyMp3 import SpotifyMp3
+from SpotifyMp3 import SpotifyMp3
 
 spotifyMp3 = ()
 try:
@@ -9,4 +9,3 @@ try:
     spotifyMp3.start()
 except Exception as e:
     print(e)
-

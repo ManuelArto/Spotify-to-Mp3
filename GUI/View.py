@@ -1,6 +1,5 @@
 import tkinter as tk
-from PIL import Image
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 HEIGHT = 500
 WIDTH = 1000
@@ -58,4 +57,3 @@ class View:
     def write_download(self, title, index):
         lab_download = self.lab_download
         lab_download.insert("end", str(index+1) + ". " + title + "\n")
-
