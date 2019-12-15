@@ -1,3 +1,4 @@
+from oauthlib.oauth2.rfc6749 import catch_errors_and_unavailability
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -58,21 +59,25 @@ class SpotifyMp3:
         self.closeBrowser()
 
     def download_from_yt(self):
-        self.closeBrowser()
-        print("downloading")
-        download_options = {
-            'format': 'bestaudio/best',
-            'outtmpl': '%(title)s.mp3',
-            'nocheckcertificate': True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-        }
-        file = open("./files/links.txt", 'r')
-        links = file.readlines()
-        os.mkdir(self.path)
-        os.chdir(self.path)
-        with youtube_dl.YoutubeDL(download_options) as dl:
-            dl.download(links)
+        try:
+            self.closeBrowser()
+            print("downloading")
+            download_options = {
+                'format': 'bestaudio/best',
+                'outtmpl': '%(title)s.mp3',
+                'nocheckcertificate': True,
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+            }
+            file = open("./files/links.txt", 'r')
+            links = file.readlines()
+            os.mkdir(self.path)
+            os.chdir(self.path)
+            with youtube_dl.YoutubeDL(download_options) as dl:
+                dl.download(links)
+        except Exception as e:
+            print(e)
+

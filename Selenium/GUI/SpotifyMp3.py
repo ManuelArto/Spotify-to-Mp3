@@ -50,20 +50,22 @@ class SpotifyMp3:
         return links
 
     def download_from_yt(self, link):
-        self.closeBrowser()
-        print("downloading")
-        download_options = {
-            'format': 'bestaudio/best',
-            'outtmpl': '%(title)s.mp3',
-            'nocheckcertificate': True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-        }
-        if not os.path.exists("../"+self.path):
-            os.mkdir(self.path)
-            os.chdir(self.path)
-        with youtube_dl.YoutubeDL(download_options) as dl:
-            dl.download([link])
+        try:
+            self.closeBrowser()
+            download_options = {
+                'format': 'bestaudio/best',
+                'outtmpl': '%(title)s.mp3',
+                'nocheckcertificate': True,
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+            }
+            if not os.path.exists("../"+self.path):
+                os.mkdir(self.path)
+                os.chdir(self.path)
+            with youtube_dl.YoutubeDL(download_options) as dl:
+                dl.download([link])
+        except Exception as e:
+            print(e)
