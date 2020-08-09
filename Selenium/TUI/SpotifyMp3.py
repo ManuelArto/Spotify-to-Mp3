@@ -1,4 +1,3 @@
-from oauthlib.oauth2.rfc6749 import catch_errors_and_unavailability
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,7 +14,7 @@ class SpotifyMp3:
         options.headless = True
         prefs = {'profile.managed_default_content_settings.images': 2}
         options.add_experimental_option("prefs", prefs)
-        self.driver = webdriver.Chrome(options=options, executable_path="./chromedriver.exe")
+        self.driver = webdriver.Chrome(options=options, executable_path="/home/manuel/Downloads/chromedriver")
         self.path = path
         self.url = url
 
@@ -81,3 +80,5 @@ class SpotifyMp3:
         except Exception as e:
             print(e)
 
+
+# for manual testing "python SpotifyMp3.py -i"
