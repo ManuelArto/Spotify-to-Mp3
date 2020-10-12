@@ -34,13 +34,11 @@ class SpotifyMp3:
 			driver.get(self.url)
 			time.sleep(7)
 			titles = driver.find_elements_by_class_name("da0bc4060bb1bdb4abb8e402916af32e-scss")
-			print(titles)
-			# TODO : artist to do
+			artists = driver.find_elements_by_class_name("_966e29b71d2654743538480947a479b3-scss")
 			self.path += str(driver.title) if self.path != "" else "" + "/"
-			file = open("./files/songs.txt", "w")
-			for song in titles:
-				file.write(song.text + "\n")
-			file.close()
+			with open("./files/songs.txt", "w+") as file:
+				for song, artist in zip(titles, artists):
+					file.write(f"{song.text} {artist.text}\n")
 		except Exception as e:
 			print(e)
 
@@ -62,9 +60,7 @@ class SpotifyMp3:
 				)
 				file.write(link + "\n")
 			except Exception as e:
-				print(
-					song + " at number " + str(songs.index(song)) + " not found. ERROR:"
-				)
+				print(song.strip("\n") + " at number " + str(songs.index(song)) + " not found. ERROR: ", end="")
 				print(e)
 		file.close()
 		self.closeBrowser()

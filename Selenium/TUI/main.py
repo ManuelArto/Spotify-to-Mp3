@@ -2,7 +2,9 @@ from SpotifyMp3 import SpotifyMp3
 
 spotifyMp3 = ()
 try:
-	url = input("Inserisci l'URL della playlist di spotify: ")		# e.g. https://open.spotify.com/playlist/5RbzyRACjDhtQuj0FAtXXA
+	url = input("Inserisci l'URL della playlist di spotify: ")		
+	# sample
+	url = "https://open.spotify.com/playlist/5RbzyRACjDhtQuj0FAtXXA" if url == "" else url
 	path = input("Inserisci il nome della cartella di download (leave blank for spotify playlist title): ")
 	spotifyMp3 = SpotifyMp3(url, path)
 	print("[STARTING]")
