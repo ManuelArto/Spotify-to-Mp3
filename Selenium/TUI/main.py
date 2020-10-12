@@ -2,7 +2,7 @@ from SpotifyMp3 import SpotifyMp3
 
 spotifyMp3 = ()
 try:
-	url = input("Inserisci l'URL della playlist di spotify: ")
+	url = input("Inserisci l'URL della playlist di spotify: ")		# e.g. https://open.spotify.com/playlist/5RbzyRACjDhtQuj0FAtXXA
 	path = input("Inserisci il nome della cartella di download (leave blank for spotify playlist title): ")
 	spotifyMp3 = SpotifyMp3(url, path)
 	print("[STARTING]")
@@ -20,3 +20,5 @@ try:
 			print("Select a valide choice")
 except Exception as e:
 	print(e)
+
+# run 'python main.py from Selenium/TUI/ folder'

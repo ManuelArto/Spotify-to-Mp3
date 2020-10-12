@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import os
+import time
 
 
 class SpotifyMp3:
@@ -29,16 +30,19 @@ class SpotifyMp3:
 	def get_titles(self):
 		print("getting titles")
 		driver = self.driver
-		driver.get(self.url)
-		titles = WebDriverWait(driver, 5).until(
-			EC.visibility_of_all_elements_located((By.CLASS_NAME, "tracklist-name"))
-		)
-		artists = driver.find_elements_by_class_name("TrackListRow__artists")
-		self.path += str(driver.title) if self.path != "" else "" + "/"
-		file = open("./files/songs.txt", "w+")
-		for song, artist in zip(titles, artists):
-			file.write(song.text + " " + artist.text + "\n")
-		file.close()
+		try:
+			driver.get(self.url)
+			time.sleep(7)
+			titles = driver.find_elements_by_class_name("da0bc4060bb1bdb4abb8e402916af32e-scss")
+			print(titles)
+			# TODO : artist to do
+			self.path += str(driver.title) if self.path != "" else "" + "/"
+			file = open("./files/songs.txt", "w")
+			for song in titles:
+				file.write(song.text + "\n")
+			file.close()
+		except Exception as e:
+			print(e)
 
 	def get_links(self):
 		print("getting links")
