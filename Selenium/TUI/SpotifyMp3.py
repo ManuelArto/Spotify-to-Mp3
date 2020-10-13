@@ -39,7 +39,8 @@ class SpotifyMp3:
 			time.sleep(7)
 			titles = driver.find_elements_by_class_name("da0bc4060bb1bdb4abb8e402916af32e-scss")
 			artists = driver.find_elements_by_class_name("_966e29b71d2654743538480947a479b3-scss")
-			self.path += str(driver.title) if self.path != "" else "" + "/"
+			if self.path == "":
+				self.path = str(driver.title)  
 			with open("./files/songs.txt", "w+") as file:
 				for song, artist in zip(titles, artists):
 					file.write(f"{song.text} {artist.text}\n")
@@ -50,7 +51,7 @@ class SpotifyMp3:
 		print("getting links")
 		driver = self.driver
 		file = open("./files/songs.txt", "r")
-		songs = file.readlines()
+		songs = [song.strip("\n") for song in file.readlines()]
 		file = open("./files/links.txt", "w+")
 		for song in songs:
 			try:
@@ -62,9 +63,17 @@ class SpotifyMp3:
 					)[0]
 					.get_attribute("href")
 				)
+				if not link:
+					link = (
+						WebDriverWait(driver, 5)
+						.until(
+							EC.visibility_of_all_elements_located((By.ID, "video-title"))
+						)[1]
+						.get_attribute("href")
+					)
 				file.write(link + "\n")
 			except Exception as e:
-				print(song.strip("\n") + " at number " + str(songs.index(song)) + " not found. ERROR: ", end="")
+				print(song + " at number " + str(songs.index(song)) + ", ERROR: ", end="")
 				print(e)
 		file.close()
 		self.closeBrowser()
@@ -74,9 +83,11 @@ class SpotifyMp3:
 			self.closeBrowser()
 			print("downloading")
 			file = open("./files/links.txt", "r")
-			links = file.readlines()
+			links = [link.strip("\n") for link in file.readlines()]
+			if self.path == "":
+				self.path = "songs"
 			try:
-				os.mkdir(self.path if self.path != "" else "./songs")
+				os.mkdir(self.path)
 			except Exception as e:
 				print(f"Folder {self.path} exists")
 			os.chdir(self.path)

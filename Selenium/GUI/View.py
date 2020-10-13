@@ -54,6 +54,6 @@ class View:
         for link in links:
             lab_links.insert("end", str(links.index(link)+1) + ". " + link + "\n")
 
-    def write_download(self, title, index):
+    def write_download(self, index, title):
         lab_download = self.lab_download
         lab_download.insert("end", str(index+1) + ". " + title + "\n")

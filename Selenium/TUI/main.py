@@ -4,7 +4,8 @@ spotifyMp3 = ()
 try:
 	url = input("Inserisci l'URL della playlist di spotify: ")		
 	# sample
-	url = "https://open.spotify.com/playlist/5RbzyRACjDhtQuj0FAtXXA" if url == "" else url
+	if url == "":
+		url = "https://open.spotify.com/playlist/5RbzyRACjDhtQuj0FAtXXA"
 	path = input("Inserisci il nome della cartella di download (leave blank for spotify playlist title): ")
 	spotifyMp3 = SpotifyMp3(url, path)
 	print("[STARTING]")
