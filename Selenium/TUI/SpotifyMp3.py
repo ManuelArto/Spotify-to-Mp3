@@ -76,7 +76,7 @@ class SpotifyMp3:
 			file = open("./files/links.txt", "r")
 			links = file.readlines()
 			try:
-				os.mkdir(self.path)
+				os.mkdir(self.path if self.path != "" else "./songs")
 			except Exception as e:
 				print(f"Folder {self.path} exists")
 			os.chdir(self.path)
