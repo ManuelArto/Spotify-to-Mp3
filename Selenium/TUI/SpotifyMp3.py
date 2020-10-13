@@ -9,6 +9,10 @@ import time
 
 class SpotifyMp3:
 	def __init__(self, url, path):
+		try:
+			os.mkdir("./files")
+		except Exception as e:
+			pass
 		options = Options()
 		options.headless = True
 		prefs = {"profile.managed_default_content_settings.images": 2}
@@ -74,7 +78,7 @@ class SpotifyMp3:
 			try:
 				os.mkdir(self.path)
 			except Exception as e:
-				print(e)
+				print(f"Folder {self.path} exists")
 			os.chdir(self.path)
 
 			# youtube-dl cli
