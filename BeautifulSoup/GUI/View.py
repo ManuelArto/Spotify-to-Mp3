@@ -46,13 +46,13 @@ class View:
 
     def write_songs(self, songs):
         lab_songs = self.lab_songs
-        for song in songs:
-            lab_songs.insert("end", str(songs.index(song)+1) + ". " + song + "\n")
+        for index, song in enumerate(songs):
+            lab_songs.insert("end", str(index + 1) + ". " + song + "\n")
 
     def write_links(self, links):
         lab_links = self.lab_links
-        for link in links:
-            lab_links.insert("end", str(links.index(link)+1) + ". " + link + "\n")
+        for index, link in enumerate(links):
+            lab_links.insert("end", str(index + 1) + ". " + link + "\n")
 
     def write_download(self, index, title):
         lab_download = self.lab_download
