@@ -46,42 +46,52 @@ class SpotifyMp3:
 				for song, artist in zip(titles, artists):
 					file.write(f"{song.text} {artist.text}\n")
 		except Exception as e:
-			print(e)
+			print("Error: ", e)
 
 	def get_links(self):
 		print("getting links")
 		driver = self.driver
 		file = open("./files/songs.txt", "r")
 		songs = [song.strip("\n") for song in file.readlines()]
-		file = open("./files/links.txt", "w+")
-		for song in songs:
-			try:
-				driver.get("http://www.youtube.com/results?search_query=" + song)
-				link = (
-					WebDriverWait(driver, 5)
-					.until(
-						EC.visibility_of_all_elements_located((By.ID, "video-title"))
-					)[0]
-					.get_attribute("href")
-				)
-				if not link:
+		attempts = {}
+		with open("./files/links.txt", "w+") as file:
+			index = 0
+			while index < len(songs):
+				song = songs[index]
+				try:
+					driver.get("http://www.youtube.com/results?search_query=" + song)
 					link = (
 						WebDriverWait(driver, 5)
 						.until(
 							EC.visibility_of_all_elements_located((By.ID, "video-title"))
-						)[1]
+						)[0]
 						.get_attribute("href")
 					)
-				file.write(link + "\n")
-			except Exception as e:
-				print(song + " at number " + str(songs.index(song)) + ", ERROR: ", end="")
-				print(e)
-		file.close()
+					if not link:
+						link = (
+							WebDriverWait(driver, 5)
+							.until(
+								EC.visibility_of_all_elements_located((By.ID, "video-title"))
+							)[1]
+							.get_attribute("href")
+						)
+					file.write(link + "\n")
+				except Exception as e:
+					if song not in attempts.keys():
+						# 5 attempt for download a song (can be changed)
+						attempts[song] = 5
+					if attempts[song] != 0:
+						index -= 1
+						attempts[song] -= 1
+					else:
+						file.write("\n")
+					print(
+						f"'{song}' at number {str(songs.index(song))} ERROR: {e} RETRY n:{5 - attempts[song]}")
+				index += 1
 		self.closeBrowser()
 
 	def download_from_yt(self):
 		try:
-			self.closeBrowser()
 			print("downloading")
 			file = open("./files/links.txt", "r")
 			links = [link.strip("\n") for link in file.readlines()]

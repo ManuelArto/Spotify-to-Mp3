@@ -23,5 +23,3 @@ try:
 			print("Select a valide choice")
 except Exception as e:
 	print(e)
-
-# run 'python main.py from Selenium/TUI/ folder'
