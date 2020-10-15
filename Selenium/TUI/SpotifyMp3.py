@@ -37,6 +37,7 @@ class SpotifyMp3:
 		try:
 			driver.get(self.url)
 			time.sleep(7)
+			# TODO: scroll to bottom
 			titles = driver.find_elements_by_class_name("da0bc4060bb1bdb4abb8e402916af32e-scss")
 			artists = driver.find_elements_by_class_name("_966e29b71d2654743538480947a479b3-scss")
 			if self.path == "":
