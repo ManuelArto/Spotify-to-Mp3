@@ -19,3 +19,14 @@ You need to setup the APIs for the two services and insert your credentials manu
 
 1. Spotipy Docs: https://spotipy.readthedocs.io/en/latest/
 2. Youtube API Docs: https://developers.google.com/youtube/v3/quickstart/python
+
+
+## Setup
+- Install requirements:
+	```bash
+	$ pip install -r requirements.txt
+	```
+- Run
+	```bash
+	$ python main.py
+	```
